@@ -2,13 +2,13 @@ from flask import Flask, Response, render_template, request
 import serial
 import cv2
 
-# serialPort = serial.Serial("/dev/serial0", baudrate=115200)
 
 try:
     from picamera.array import PiRGBArray
     from picamera import PiCamera
     import time
 
+    serialPort = serial.Serial("/dev/serial0", baudrate=115200)
     camera = PiCamera()
     camera.resolution = (640, 480)
     time.sleep(2)
@@ -25,6 +25,7 @@ try:
 except Exception as E:
     print(E)
 
+    serialPort = None
     cam = cv2.VideoCapture(2)
 
     def gen_frames():
@@ -58,7 +59,8 @@ def cmd():
     global serialPort
     requestData = request.form["type"]
     print("Sending command to SPIKE: {}".format(requestData))
-    serialPort.write(requestData.encode())
+    if serialPort:
+        serialPort.write(requestData.encode())
     return "Success!"
 
 
