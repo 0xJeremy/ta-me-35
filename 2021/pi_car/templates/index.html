@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Pi Car!</title>
+</head>
+
+<body>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-8  offset-lg-2">
+                <h3 class="mt-5">Live Streaming: PiVIEW</h3>
+                <img src="{{ url_for('video_feed') }}" width="100%">
+            </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col"><button type="button" class="btn btn-success" onclick="sendCmd('f')">Forward</button></div>
+            <div class="w-100"></div>
+            <div class="col"><button type="button" class="btn btn-success" onclick="sendCmd('l')">Left</button></div>
+            <div class="col"></div>
+            <div class="col"><button type="button" class="btn btn-success" onclick="sendCmd('r')">Right</button></div>
+            <div class="w-100"></div>
+            <div class="col"><button type="button" class="btn btn-success" onclick="sendCmd('b')">Backward</button></div>
+          </div>
+        </div>
+    </div>
+</body>
+
+<style type="text/css">
+    body {
+        background: #09101d;
+        color: #4fbbd6;
+    }
+
+    img {
+        padding-bottom: 2em;
+    }
+
+    .container {
+        background: #09101d;
+        color: #4fbbd6;
+    }
+
+    button {
+        min-width: 10em;
+    }
+</style>
+
+<script type="text/javascript">
+    function sendCmd(type) {
+        $.post("cmd",
+          {
+            type: type
+          },
+          function(data, status){
+            console.log("Sending cmd to server: " + type)
+        });
+    }
+</script>
+
+</html>
